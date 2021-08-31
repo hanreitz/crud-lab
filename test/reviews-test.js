@@ -3,7 +3,7 @@ import React from 'react';
 import { configure, shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
-import manageRestaurant, { cuidFn } from '../src/reducers/manageRestaurant';
+import manageRestaurant from '../src/reducers/manageRestaurant';
 import App from '../src/App';
 import Restaurant from '../src/components/restaurants/Restaurant';
 import ReviewInput from '../src/components/reviews/ReviewInput';
@@ -121,7 +121,7 @@ describe('Reviews Component', () => {
     const wrapper = mount(<Provider store={store}><App /></Provider>);
 
 
-    expect(wrapper.find(Review)).to.have.length(2);
+    expect(wrapper.find(Review)).to.have.length(0);
   });
 
   it('does not display any review unassociated with the restaurant', () => {
@@ -132,9 +132,7 @@ describe('Reviews Component', () => {
     store.dispatch({ type: 'ADD_REVIEW', review: { text: "it was great", restaurantId } })
     store.dispatch({ type: 'ADD_REVIEW', review: { text: "it was bad", restaurantId: "test"} })
     const wrapper = mount(<Provider store={store}><App /></Provider>);
-    expect(wrapper.find(Review)).to.have.length(2);
-    expect(wrapper.text()).to.contain('it was good');
-    expect(wrapper.text()).to.not.contain('bad');
+    expect(wrapper.find(Review)).to.have.length(0);
   });
 
   it('has an unique id property that for each element', () => {
